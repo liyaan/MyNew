@@ -64,7 +64,7 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
 //                for (i in 0..3){
 //                    subscriber.onNext("$i")
 //                }
-                subscriber.onNext("http://vipapp.tun.aitifen.cn/index/user/appVersion?type=android")
+                subscriber.onNext("")
             }
 
         }).observeOn(Schedulers.io()).map(object:Transformer<String,String>{
@@ -100,7 +100,7 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
             R.id.start_download -> {
                 //                String url = "https://raw.githubusercontent.com/guolindev/eclipse/master/eclipse-inst-win64.exe";
                 val url =
-                    "http://download.aitifen.com/android/gs1v1-release.apk"
+                    ""
                 downloadBinder?.startDownload(url)
                 downloadBinder?.setListener(object: DownloadListener {
                     override fun onProgress(progress: Int) {
