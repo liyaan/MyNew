@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="187dip"
+        android:layout_marginTop="36dip"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/home_yuanjiao_yin_bg_eight">
+        <TextView
+            android:id="@+id/updata_pro_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在为您更新，请耐心等待…"
+            android:layout_marginTop="81dip"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff333340"
+            android:textSize="14sp"
+            />
+        <TextView
+            android:id="@+id/updata_pro_jindu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/updata_pro_one"
+            android:layout_marginTop="20dip"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff333340"
+            android:textSize="12sp"
+            />
+        <ProgressBar
+            android:id="@+id/updata_pro_bar"
+            android:layout_width="match_parent"
+            android:layout_below="@id/updata_pro_jindu"
+            android:layout_marginRight="42dip"
+            android:layout_marginLeft="42dip"
+            android:layout_marginTop="10dip"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_height="9dip"
+            android:max="100"
+            android:progressDrawable="@drawable/personal_center_level_progress_bg"></ProgressBar>
+    </RelativeLayout>
+</RelativeLayout>

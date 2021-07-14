@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+<!--    字体颜色-->
+    <color name="text_color_normal">#ff454545</color>
+    <color name="text_color_prassed">#ffcc3131</color>
+<!--    item样式-->
+    <color name="selected_bg">#ffffffff</color>
+    <color name="selected_stoke">#ffcc3131</color>
+<!--    固定态-->
+    <color name="disabled_bg">#ffefefef</color>
+    <color name="disabled_stoke">#ffcdcdcd</color>
+
+<!--    常规态-->
+    <color name="normal_bg">#fff5f5f5</color>
+    <color name="normal_stoke">#ffcdcdcd</color>
+
+<!--    大众态-->
+    <color name="common_bg">#ffd2d2d2</color>
+    <color name="common_stoke">#fff5f5f5</color>
+
+    <color name="bg_pressed">#cdcdcd</color>
+    <color name="bg_pressed_stroke">#e3e3e3</color>
+
+    <color name="transparent">#00000000</color>
+</resources>

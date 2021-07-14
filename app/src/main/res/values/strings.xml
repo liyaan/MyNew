@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyNew</string>
+    <string name="new_pindao">新闻频道</string>
+    <string name="more_pindao">更多频道</string>
+</resources>

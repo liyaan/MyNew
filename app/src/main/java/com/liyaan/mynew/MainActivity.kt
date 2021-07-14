@@ -1,0 +1,146 @@
+package com.liyaan.mynew
+
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
+import android.widget.*
+import androidx.core.view.get
+import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
+import java.io.InputStream
+const val data:String = "data.json"
+const val ANIM_DURATION:Long = 300
+class MainActivity : AppCompatActivity(),AdapterView.OnItemClickListener {
+    private val mUserList = ArrayList<String>()
+    private val mOtherList = ArrayList<String>()
+    private var mUserAdapter:ChannelAdapter? = null
+    private var mOtherAdapter:ChannelAdapter? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initData()
+        mUserAdapter = ChannelAdapter(this,mUserList,true)
+        mOtherAdapter = ChannelAdapter(this,mOtherList,false)
+        user_gridview.adapter = mUserAdapter
+        other_gridview.adapter = mOtherAdapter
+        user_gridview.setOnItemClickListener(this)
+        other_gridview.setOnItemClickListener(this)
+        open_select.setOnCheckedChangeListener(object:CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                ChannelAdapter.mInEditSate = isChecked
+                if (ChannelAdapter.mInEditSate){
+                    tv_more.visibility = View.VISIBLE
+                    other_gridview.visibility = View.VISIBLE
+                }else{
+                    tv_more.visibility = View.GONE
+                    other_gridview.visibility = View.GONE
+                }
+                mUserAdapter?.notifyDataSetChanged()
+                mOtherAdapter?.notifyDataSetChanged()
+            }
+
+        })
+    }
+
+    private fun initData(){
+        val input = assets.open(data)
+        val length = input.available()
+        val buffer = ByteArray(length)
+        input.read(buffer)
+        val dataStr = String(buffer,Charsets.UTF_8)
+        val jsonObject = JSONObject(dataStr)
+        val userArray = jsonObject.optJSONArray("user")
+        val otherArray = jsonObject.optJSONArray("other")
+        for (i in 0 until userArray.length()){
+            mUserList.add(userArray.optString(i))
+        }
+        for (i in 0 until otherArray.length()){
+            mOtherList.add(otherArray.optString(i))
+        }
+        Log.i("aaa",mUserList.toString())
+        Log.i("aaa",mOtherList.toString())
+    }
+
+    private fun moveAnimation(moveView:View,startPos:IntArray,endPos:IntArray,duration:Long){
+        val animation=TranslateAnimation(startPos[0].toFloat(),endPos[0].toFloat(),
+            startPos[1].toFloat(),endPos[1].toFloat())
+        animation.duration = duration
+        animation.fillAfter = false
+        animation.setAnimationListener(object:Animation.AnimationListener{
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                (moveView.parent as ViewGroup).removeView(moveView)
+                reauestAdapter()
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+
+        })
+        moveView.startAnimation(animation)
+    }
+
+    private fun reauestAdapter() {
+        mUserAdapter?.setTranslating(false)
+        mOtherAdapter?.setTranslating(false)
+
+        mUserAdapter?.remove()
+        mOtherAdapter?.remove()
+    }
+
+    private fun getCloneView(view:View):ImageView{
+        //旧版本
+//        view.destroyDrawingCache()
+//        view.isDrawingCacheEnabled = true
+//        val cache = Bitmap.createBitmap(view.drawingCache)
+//        view.isDrawingCacheEnabled = false
+//        val imageView = ImageView(this)
+//        imageView.setImageBitmap(cache)
+        val bitmap = Bitmap.createBitmap(view.width,view.height,Bitmap.Config.RGB_565)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        val imageView = ImageView(this)
+        imageView.setImageBitmap(bitmap)
+        return imageView
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (ChannelAdapter.mInEditSate){
+            var currentView:GridView
+            var anotherView:GridView
+            if (parent==user_gridview){
+                currentView = user_gridview
+                anotherView = other_gridview
+            }else{
+                currentView = other_gridview
+                anotherView = user_gridview
+            }
+            val startPos = IntArray(2)
+            val endPos = IntArray(2)
+            view?.getLocationInWindow(startPos)
+
+            val currentAdapter = currentView.adapter as ChannelAdapter
+            val anotherAdapter = anotherView.adapter as ChannelAdapter
+            anotherAdapter.setTranslating(true)
+            anotherAdapter.add(currentAdapter.setRemove(position))
+            val cloceView = getCloneView(view!!)
+            (window.decorView as ViewGroup).addView(cloceView,ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+            currentView.post {
+                val lastView = anotherView.get(anotherView.childCount-1)
+                lastView.getLocationInWindow(endPos)
+                moveAnimation(cloceView,startPos,endPos,ANIM_DURATION)
+            }
+
+        }else {
+            Toast.makeText(this@MainActivity, mUserList.get(position), Toast.LENGTH_SHORT).show();
+        }
+    }
+}
