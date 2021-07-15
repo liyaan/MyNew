@@ -23,4 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:text="打开微信"></Button>
+    <Button
+        android:id="@+id/click_btn_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:text="点击"></Button>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -17,8 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.liyaan.download.DownloadListener
+import com.liyaan.eventBus.EventBus
+import com.liyaan.eventBus.Subscribe
+import com.liyaan.eventBus.ThreadMode
 import com.liyaan.mynew.DownloadService.DownloadBinder
 import com.liyaan.rxJava.*
+import kotlinx.android.synthetic.main.activity_download.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -38,14 +42,17 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_download)
+        EventBus.getDefault().register(this)
         val startDownload: Button = findViewById(R.id.start_download)
         val pauseDownload: Button = findViewById(R.id.pause_download)
         val cancelDownload: Button = findViewById(R.id.cancel_download)
         val openWea: Button = findViewById(R.id.open_weacher)
+        val clickBtn: Button = findViewById(R.id.click_btn_text)
         startDownload.setOnClickListener(this)
         pauseDownload.setOnClickListener(this)
         cancelDownload.setOnClickListener(this)
         openWea.setOnClickListener(this)
+        clickBtn.setOnClickListener(this)
         val intent = Intent(this, DownloadService::class.java)
         bindService(intent, connection, Context.BIND_AUTO_CREATE)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -64,7 +71,7 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
 //                for (i in 0..3){
 //                    subscriber.onNext("$i")
 //                }
-                subscriber.onNext("")
+                subscriber.onNext("https://api.apiopen.top/getJoke?page=1&count=2&type=video")
             }
 
         }).observeOn(Schedulers.io()).map(object:Transformer<String,String>{
@@ -131,6 +138,10 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
             R.id.pause_download -> downloadBinder!!.pauseDownload()
             R.id.cancel_download -> downloadBinder!!.cancelDownload()
             R.id.open_weacher->getWechatApi()
+            R.id.click_btn_text->{
+                val intent = Intent(this,TestActivity::class.java)
+                startActivity(intent)
+            }
             else -> {
             }
         }
@@ -150,9 +161,19 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN,priority = 50,sticky = true)
+    fun testOne(msg:String){
+        Log.i("msg", "msgOne = $msg")
+        click_btn_text.text = msg
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN,priority = 100,sticky = true)
+    fun testTwo(msg:String){
+        Log.i("msg", "msgTwo= $msg")
+        click_btn_text.text = msg
+    }
     override fun onDestroy() {
         super.onDestroy()
+        EventBus.getDefault().unregister(this)
         unbindService(connection)
     }
 
