@@ -23,9 +23,11 @@ import com.liyaan.eventBus.ThreadMode
 import com.liyaan.mynew.DownloadService.DownloadBinder
 import com.liyaan.rxJava.*
 import kotlinx.android.synthetic.main.activity_download.*
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
+import org.json.JSONObject
+
+
+
 
 
 class DownloadActivity:AppCompatActivity(), View.OnClickListener {
@@ -71,17 +73,27 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
 //                for (i in 0..3){
 //                    subscriber.onNext("$i")
 //                }
-                subscriber.onNext("https://api.apiopen.top/getJoke?page=1&count=2&type=video")
+                subscriber.onNext("")
             }
 
         }).observeOn(Schedulers.io()).map(object:Transformer<String,String>{
             override fun call(from: String): String {
-                val client = OkHttpClient()
-                val request: Request = Request.Builder()
-                    .url(from)
-                    .build()
-                val response: Response = client.newCall(request).execute()
-                return response.body()!!.string()
+                if (from!=null){
+                    val client = OkHttpClient()
+                    val JSON: MediaType? = MediaType.parse("application/json;charset=utf-8")
+                    val json = JSONObject()
+                    json.put("page","1")
+                    json.put("page_size","20")
+                    val respuestBody = RequestBody.create(JSON,json.toString())
+                    val request: Request = Request.Builder()
+                        .url(from).post(respuestBody)
+                        .build()
+                    val response: Response = client.newCall(request).execute()
+                    return response.body()!!.string()
+                }else{
+                    return "url不能为空"
+                }
+
             }
 
         }).observeOnMain(AndroidSchedulers.mianRun()).subscribe(object:Subscriber<String>(){
