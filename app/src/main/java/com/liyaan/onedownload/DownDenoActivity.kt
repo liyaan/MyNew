@@ -8,10 +8,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.liyaan.mynew.R
 import com.liyaan.okhttp.*
+import com.zheng.bottommenus.bean.Menu
+import com.zheng.bottommenus.view.BottomMenusView.OnMenuListener
 import kotlinx.android.synthetic.main.activity_demo_down_apk.*
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
+
 
 class DownDenoActivity:AppCompatActivity() {
 
@@ -65,6 +68,7 @@ class DownDenoActivity:AppCompatActivity() {
                 }
             })
         }
+        initBottomMenus()
     }
     private fun show(msg: String) {
         Handler(Looper.getMainLooper()).post {
@@ -83,5 +87,32 @@ class DownDenoActivity:AppCompatActivity() {
         map["Content-Type"] = "application/json; charset=utf-8"
         //        map.put("boarding-pass", "8F66ADEAF01C7BAE92685449D54EF9DF");
         return map
+    }
+
+    fun initBottomMenus() {
+//        bottomMenusView = findViewById(R.id.view_bottom_menus)
+        val listMenu: MutableList<Menu> = ArrayList()
+        listMenu.add(Menu("路飞", R.mipmap.ic_launcher))
+        listMenu.add(Menu("罗宾", R.mipmap.ic_launcher))
+        listMenu.add(Menu("索隆", R.mipmap.ic_launcher))
+        listMenu.add(Menu("布鲁克",R.mipmap.ic_launcher))
+        listMenu.add(Menu("雷利", R.mipmap.ic_launcher))
+        listMenu.add(Menu("萨波", R.mipmap.ic_launcher))
+        listMenu.add(Menu("路飞", R.mipmap.ic_launcher))
+        listMenu.add(Menu("罗宾", R.mipmap.ic_launcher))
+        listMenu.add(Menu("索隆", R.mipmap.ic_launcher))
+        listMenu.add(Menu("布鲁克",R.mipmap.ic_launcher))
+        listMenu.add(Menu("雷利", R.mipmap.ic_launcher))
+        listMenu.add(Menu("萨波", R.mipmap.ic_launcher))
+        bottomMenusView.setDatas(listMenu)
+        bottomMenusView.setOnMenuListener(object : OnMenuListener {
+            override fun onClickMenu(menu: Menu) {
+                Toast.makeText(this@DownDenoActivity, "点击" + menu.getName(), Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onLongClickMenu(menu: Menu) {
+                Toast.makeText(this@DownDenoActivity, "长按" + menu.getName(), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

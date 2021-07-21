@@ -18,7 +18,7 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.liyaan.onedownload.DownDenoActivity">
+        <activity android:name=".RecyclerViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".TestActivity"></activity>
+        <activity android:name="com.liyaan.onedownload.DownDenoActivity"></activity>
         <service android:name=".DownloadService"></service>
         <service android:name=".DownloadActivity"
             tools:ignore="Instantiatable"></service>
