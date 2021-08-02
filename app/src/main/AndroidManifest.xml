@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.liyaan.mynew">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
@@ -18,7 +20,7 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecyclerViewActivity">
+        <activity android:name=".GlideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".RecyclerViewActivity"></activity>
         <activity android:name=".TestActivity"></activity>
         <activity android:name="com.liyaan.onedownload.DownDenoActivity"></activity>
         <service android:name=".DownloadService"></service>
