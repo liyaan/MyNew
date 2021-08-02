@@ -20,7 +20,7 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GlideActivity">
+        <activity android:name=".JniDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".GlideActivity"></activity>
         <activity android:name=".RecyclerViewActivity"></activity>
         <activity android:name=".TestActivity"></activity>
         <activity android:name="com.liyaan.onedownload.DownDenoActivity"></activity>
