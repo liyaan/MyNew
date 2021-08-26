@@ -1,3 +1,6 @@
-
+include ':api'
+include ':compiler'
+include ':annotation'
+include ':flutter'
 include ':app'
 rootProject.name = "MyNew"

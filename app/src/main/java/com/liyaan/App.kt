@@ -10,4 +10,8 @@ class App : MultiDexApplication(){
         super.attachBaseContext(base)
         install(this)
     }
+
+    override fun onCreate() {
+        super.onCreate()
+    }
 }

@@ -7,6 +7,56 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/jni_demo_tv_str"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bind_demo_tv_str"></TextView>
+    <RelativeLayout  android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/button_gray_3"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="灰度3" />
+
+        <Button
+            android:id="@+id/button_inverse"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/button_gray_3"
+            android:layout_alignTop="@+id/button_gray_3"
+            android:text="变亮" />
+
+        <Button
+            android:id="@+id/button_gray_1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/button_inverse"
+            android:layout_alignTop="@+id/button_gray_3"
+            android:text="灰度2" />
+
+        <Button
+            android:id="@+id/button_gray_2"
+            android:layout_width="100dp"
+            android:layout_below="@+id/button_gray_3"
+            android:layout_height="wrap_content"
+            android:text="灰度1" />
+
+        <Button
+            android:id="@+id/button_flip"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_inverse"
+            android:layout_toRightOf="@+id/button_gray_2"
+            android:text="镜像" />
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_gray_3"
+            android:layout_toRightOf="@+id/button_flip"
+            android:text="加载" />
+    </RelativeLayout>
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

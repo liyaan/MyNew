@@ -2,18 +2,25 @@ package com.liyaan.mynew
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.GridView
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.get
+import com.liyaan.annotation.BindView
+import com.liyaan.annotation.OnClick
+import com.liyaan.api.ButterKnife
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
-import java.io.InputStream
+
 const val data:String = "data.json"
 const val ANIM_DURATION:Long = 300
 class MainActivity : AppCompatActivity(),AdapterView.OnItemClickListener {
@@ -21,31 +28,35 @@ class MainActivity : AppCompatActivity(),AdapterView.OnItemClickListener {
     private val mOtherList = ArrayList<String>()
     private var mUserAdapter:ChannelAdapter? = null
     private var mOtherAdapter:ChannelAdapter? = null
+    @BindView(R.id.main_title)
+    lateinit var main_title:AppCompatTextView
+    @BindView(R.id.main_title_one)
+    lateinit var main_title_one:AppCompatTextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ButterKnife.bind(this)
         initData()
+        main_title.setText("aaaaaaaaaaaaaa")
+        main_title_one.setText("bbbbbbbbbbbbbbbb")
         mUserAdapter = ChannelAdapter(this,mUserList,true)
         mOtherAdapter = ChannelAdapter(this,mOtherList,false)
         user_gridview.adapter = mUserAdapter
         other_gridview.adapter = mOtherAdapter
-        user_gridview.setOnItemClickListener(this)
-        other_gridview.setOnItemClickListener(this)
-        open_select.setOnCheckedChangeListener(object:CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                ChannelAdapter.mInEditSate = isChecked
-                if (ChannelAdapter.mInEditSate){
-                    tv_more.visibility = View.VISIBLE
-                    other_gridview.visibility = View.VISIBLE
-                }else{
-                    tv_more.visibility = View.GONE
-                    other_gridview.visibility = View.GONE
-                }
-                mUserAdapter?.notifyDataSetChanged()
-                mOtherAdapter?.notifyDataSetChanged()
+        user_gridview.onItemClickListener = this
+        other_gridview.onItemClickListener = this
+        open_select.setOnCheckedChangeListener { _, isChecked ->
+            ChannelAdapter.mInEditSate = isChecked
+            if (ChannelAdapter.mInEditSate){
+                tv_more.visibility = View.VISIBLE
+                other_gridview.visibility = View.VISIBLE
+            }else{
+                tv_more.visibility = View.GONE
+                other_gridview.visibility = View.GONE
             }
-
-        })
+            mUserAdapter?.notifyDataSetChanged()
+            mOtherAdapter?.notifyDataSetChanged()
+        }
     }
 
     private fun initData(){
@@ -141,6 +152,14 @@ class MainActivity : AppCompatActivity(),AdapterView.OnItemClickListener {
 
         }else {
             Toast.makeText(this@MainActivity, mUserList.get(position), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.main_title,R.id.main_title_one)
+    fun click2(view: View) {
+        when (view.id) {
+            R.id.main_title -> Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show()
+            R.id.main_title_one->Toast.makeText(this, "test3", Toast.LENGTH_SHORT).show()
         }
     }
 }
