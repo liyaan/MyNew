@@ -18,8 +18,17 @@ import androidx.core.view.get
 import com.liyaan.annotation.BindView
 import com.liyaan.annotation.OnClick
 import com.liyaan.api.ButterKnife
+import com.liyaan.proxy.ProxyClass
+import com.liyaan.proxy.WeatherApi
+import com.liyaan.proxylibrary.LogProxy
+import com.liyaan.retrofitlibrary.ZyangRetrofit
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import org.json.JSONObject
+import java.io.IOException
+
 
 const val data:String = "data.json"
 const val ANIM_DURATION:Long = 300
@@ -36,7 +45,24 @@ class MainActivity : AppCompatActivity(),AdapterView.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
+//        val zyangRetrofit: ZyangRetrofit? = ZyangRetrofit.Builder()
+//            .baseUrl(url)
+//            ?.build()
+//        val weatherApi = zyangRetrofit!!.create(WeatherApi::class.java)
+//        val call = weatherApi.getWeather("18633002164")
+//        call?.enqueue(object:Callback{
+//            override fun onFailure(call: Call, e: IOException) {
+//                Log.i("aaaaa", "onResponse: onFailure"+e.message);
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                Log.i("aaaaa", "onResponse: get: "+response.body()?.string());
+//                response.close();
+//            }
+//
+//        })
         initData()
+        LogProxy().log(ProxyClass())
         main_title.setText("aaaaaaaaaaaaaa")
         main_title_one.setText("bbbbbbbbbbbbbbbb")
         mUserAdapter = ChannelAdapter(this,mUserList,true)

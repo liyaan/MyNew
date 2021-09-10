@@ -55,6 +55,8 @@ dependencies {
 //    annotationProcessor project(':compiler')
     implementation project(':annotation')
     implementation project(':api')
+    implementation project(path: ':proxylibrary')
+    implementation project(path: ':RetrofitLibrary')
     kapt project(':compiler')
 //    implementation project(path: ':kglide')
     testImplementation 'junit:junit:4.12'
