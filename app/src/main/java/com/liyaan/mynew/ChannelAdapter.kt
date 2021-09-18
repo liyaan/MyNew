@@ -29,9 +29,9 @@ class ChannelAdapter(context: Context,list:MutableList<String>,isUserChannel:Boo
         if (convertView==null){
             mConvertView = inFlater.inflate(R.layout.channel_item,parent,false)
             viewHolder = ViewOneHolder(mConvertView)
-            mConvertView?.setTag(viewHolder)
+            mConvertView?.tag = viewHolder
         }else{
-            viewHolder = mConvertView?.getTag() as ViewOneHolder
+            viewHolder = mConvertView?.tag as ViewOneHolder
         }
         val tvItem = viewHolder.tv
         val ivEdit = viewHolder.iv

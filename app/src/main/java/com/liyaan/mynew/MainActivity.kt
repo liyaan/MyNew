@@ -22,6 +22,7 @@ import com.liyaan.proxy.ProxyClass
 import com.liyaan.proxy.WeatherApi
 import com.liyaan.proxylibrary.LogProxy
 import com.liyaan.retrofitlibrary.ZyangRetrofit
+import com.liyaan.utils.ImageManager
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -63,8 +64,11 @@ class MainActivity : AppCompatActivity(),AdapterView.OnItemClickListener {
 //        })
         initData()
         LogProxy().log(ProxyClass())
-        main_title.setText("aaaaaaaaaaaaaa")
-        main_title_one.setText("bbbbbbbbbbbbbbbb")
+        main_title.text = "aaaaaaaaaaaaaa"
+        main_title_one.text = "bbbbbbbbbbbbbbbb"
+        ImageManager.with(this)
+            .load("https://lupic.cdn.bcebos.com/20210629/2000029256_14.jpg")
+            .placeholder(R.mipmap.ic_launcher)?.into(main_imgview)
         mUserAdapter = ChannelAdapter(this,mUserList,true)
         mOtherAdapter = ChannelAdapter(this,mOtherList,false)
         user_gridview.adapter = mUserAdapter
