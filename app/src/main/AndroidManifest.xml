@@ -21,7 +21,9 @@
         android:hardwareAccelerated="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.liyaan.mvvm.net.ui.activity.MvvmMainActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,6 +35,9 @@
         <activity android:name=".RecyclerViewActivity"></activity>
         <activity android:name=".TestActivity"></activity>
         <activity android:name="com.liyaan.onedownload.DownDenoActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".OneSelfViewActivity"></activity>
+        <activity android:name="com.liyaan.mvvm.MvvmActivity"></activity>
         <service android:name=".DownloadService"></service>
         <service android:name=".DownloadActivity"
             tools:ignore="Instantiatable"></service>

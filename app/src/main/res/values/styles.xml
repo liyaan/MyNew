@@ -21,4 +21,17 @@
         <!-- 点击空白处消失 -->
         <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
     </style>
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="Toolbar_TextAppearance_White">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity" >
+        <item name="android:activityOpenEnterAnimation">@animator/up_in</item>
+        <item name="android:activityOpenExitAnimation">@animator/up_out</item>
+        <item name="android:activityCloseEnterAnimation">@animator/down_in</item>
+        <item name="android:activityCloseExitAnimation">@animator/down_out</item>
+    </style>
 </resources>

@@ -11,7 +11,17 @@ class App : MultiDexApplication(){
         install(this)
     }
 
+
+
     override fun onCreate() {
         super.onCreate()
+        mContext = applicationContext
     }
+    companion object{
+        private var mContext: Context? = null
+        fun getContext(): Context {
+            return mContext!!
+        }
+    }
+
 }
