@@ -8,13 +8,13 @@ import android.os.Binder
 import android.os.Build
 import android.os.Environment
 import android.os.IBinder
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.ProgressBar
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.liyaan.download.DownloadListener
 import com.liyaan.download.DownloadTask
+import com.liyaan.utils.MD5Util
+import com.liyaan.utils.MD5Util.isBackground
 import java.io.File
 
 
@@ -33,12 +33,22 @@ class DownloadService:Service(){
             }
 
             override fun onSuccess() {
+                if(isBackground(this@DownloadService)){
+                    val intent = packageManager.getLaunchIntentForPackage(packageName);
+                    intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    Log.i("aaaa",
+                        "aaddddff${isBackground(this@DownloadService)} $packageName")
+                    startActivity(intent)
+                }
+//                MD5Util.isRunningForegroundToApp1(this@DownloadService,DownloadActivity::class.java)
                 if (mlistener!=null){
                     mlistener?.onSuccess()
                 }
                 downloadTask = null
                 //下载成功关闭前台服务通知，并创建一个下载成功的通知
                 stopForeground(true)
+
+
                 getNotificationManager().notify(1, getNotification("Download Success", -1))
                 Toast.makeText(this@DownloadService, "DownloadSuccess", Toast.LENGTH_SHORT).show()
             }
@@ -147,4 +157,5 @@ class DownloadService:Service(){
         }
         return notification.build()
     }
+
 }

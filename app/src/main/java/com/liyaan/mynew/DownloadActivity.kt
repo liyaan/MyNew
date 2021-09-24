@@ -1,18 +1,20 @@
 package com.liyaan.mynew
 
 import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
+import android.net.Uri
+import android.os.*
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,13 +23,9 @@ import com.liyaan.eventBus.EventBus
 import com.liyaan.eventBus.Subscribe
 import com.liyaan.eventBus.ThreadMode
 import com.liyaan.mynew.DownloadService.DownloadBinder
-import com.liyaan.rxJava.*
+import com.liyaan.utils.ApkUtils
 import kotlinx.android.synthetic.main.activity_download.*
-import okhttp3.*
-import org.json.JSONObject
-
-
-
+import java.io.File
 
 
 class DownloadActivity:AppCompatActivity(), View.OnClickListener {
@@ -41,6 +39,7 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
 
         override fun onServiceDisconnected(name: ComponentName) {}
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_download)
@@ -65,50 +64,51 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 1
             )
+
         }
-
-        Observable.create(object:OnSubscribe<String>{
-            override fun call(subscriber: Subscriber<in String>) {
-                Log.i("OnSub ",Thread.currentThread().name);
-//                for (i in 0..3){
-//                    subscriber.onNext("$i")
+//        toInStallPermissionSettingActivity()
+//        Observable.create(object:OnSubscribe<String>{
+//            override fun call(subscriber: Subscriber<in String>) {
+//                Log.i("OnSub ",Thread.currentThread().name);
+////                for (i in 0..3){
+////                    subscriber.onNext("$i")
+////                }
+//                subscriber.onNext("")
+//            }
+//
+//        }).observeOn(Schedulers.io()).map(object:Transformer<String,String>{
+//            override fun call(from: String): String {
+//                if (from!=null){
+//                    val client = OkHttpClient()
+//                    val JSON: MediaType? = MediaType.parse("application/json;charset=utf-8")
+//                    val json = JSONObject()
+//                    json.put("page","1")
+//                    json.put("page_size","20")
+//                    val respuestBody = RequestBody.create(JSON,json.toString())
+//                    val request: Request = Request.Builder()
+//                        .url(from).post(respuestBody)
+//                        .build()
+//                    val response: Response = client.newCall(request).execute()
+//                    return response.body()!!.string()
+//                }else{
+//                    return "url不能为空"
 //                }
-                subscriber.onNext("")
-            }
-
-        }).observeOn(Schedulers.io()).map(object:Transformer<String,String>{
-            override fun call(from: String): String {
-                if (from!=null){
-                    val client = OkHttpClient()
-                    val JSON: MediaType? = MediaType.parse("application/json;charset=utf-8")
-                    val json = JSONObject()
-                    json.put("page","1")
-                    json.put("page_size","20")
-                    val respuestBody = RequestBody.create(JSON,json.toString())
-                    val request: Request = Request.Builder()
-                        .url(from).post(respuestBody)
-                        .build()
-                    val response: Response = client.newCall(request).execute()
-                    return response.body()!!.string()
-                }else{
-                    return "url不能为空"
-                }
-
-            }
-
-        }).observeOnMain(AndroidSchedulers.mianRun()).subscribe(object:Subscriber<String>(){
-            override fun onCompleted() {
-            }
-
-            override fun onError(t: Throwable) {
-            }
-
-            override fun onNext(t: String) {
-                Log.i("Subscriber@ ",Thread.currentThread().getName());
-                Log.i("aaaa",t)
-            }
-
-        })
+//
+//            }
+//
+//        }).observeOnMain(AndroidSchedulers.mianRun()).subscribe(object:Subscriber<String>(){
+//            override fun onCompleted() {
+//            }
+//
+//            override fun onError(t: Throwable) {
+//            }
+//
+//            override fun onNext(t: String) {
+//                Log.i("Subscriber@ ",Thread.currentThread().getName());
+//                Log.i("aaaa",t)
+//            }
+//
+//        })
     }
 
     override fun onClick(v: View) {
@@ -119,7 +119,7 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
             R.id.start_download -> {
                 //                String url = "https://raw.githubusercontent.com/guolindev/eclipse/master/eclipse-inst-win64.exe";
                 val url =
-                    ""
+                    "http://gdown.baidu.com/data/wisegame/57a788487345e938/QQ_358.apk"
                 downloadBinder?.startDownload(url)
                 downloadBinder?.setListener(object: DownloadListener {
                     override fun onProgress(progress: Int) {
@@ -131,6 +131,14 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
                         if (mDilog!=null && mDilog!!.isShowing){
                             mDilog?.dismiss()
                         }
+                        Log.i("aaaaaaaaa","bbbbbbbbbb")
+                        val filename = url.substring(url.lastIndexOf("/"))
+                        val directory: String =
+                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                .path
+                        val file = File(directory + filename)
+                        ApkUtils.getInstall(file,
+                            this@DownloadActivity)
                     }
 
                     override fun onFail() {
@@ -221,4 +229,23 @@ class DownloadActivity:AppCompatActivity(), View.OnClickListener {
             Toast.makeText(this, "检查到您手机没有安装微信，请安装后使用该功能",Toast.LENGTH_SHORT).show()
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private fun toInStallPermissionSettingActivity() {
+        val packageURI = Uri.parse("package:" + getPackageName())
+
+//注意这个是8.0新API
+        val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI)
+//        startActivityForResult(intent, REQUEST_CODE_INSTALL_PERMISSION)
+        startActivity(intent)
+    }
+//    override fun onActivityResult(
+//        requestCode: Int,
+//        resultCode: Int,
+//        data: Intent?
+//    ) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_INSTALL_PERMISSION) {
+//            checkInstall() //以防万一，再次检查权限
+//        }
+//    }
 }

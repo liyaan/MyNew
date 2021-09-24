@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.liyaan.mynew">
-
+    <queries>
+        <package android:name="com.liyaan.mynew" />
+    </queries>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
@@ -21,9 +24,11 @@
         android:hardwareAccelerated="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.liyaan.mvvm.net.ui.activity.MvvmMainActivity"
+
+        <activity android:name=".DownloadActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +44,8 @@
         <activity android:name=".OneSelfViewActivity"></activity>
         <activity android:name="com.liyaan.mvvm.MvvmActivity"></activity>
         <service android:name=".DownloadService"></service>
-        <service android:name=".DownloadActivity"
-            tools:ignore="Instantiatable"></service>
+<!--        <service android:name="com.liyaan.mvvm.net.ui.activity.MvvmMainActivity"-->
+<!--            tools:ignore="Instantiatable"></service>-->
         <provider
             android:authorities="${applicationId}.fileprovider"
             android:name="androidx.core.content.FileProvider"
