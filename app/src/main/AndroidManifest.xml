@@ -25,10 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".DownloadActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleTask">
+        <activity android:name=".DownloadAidlActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,12 +36,29 @@
         <activity android:name=".JniDemoActivity"></activity>
         <activity android:name=".GlideActivity"></activity>
         <activity android:name=".RecyclerViewActivity"></activity>
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name="com.liyaan.intentService.IntentServiceActivity"></activity>
+        <activity android:name=".TestActivity">
+            <intent-filter>
+                <action android:name="com.liyaan.mynew.main" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DownloadActivity"></activity>
         <activity android:name="com.liyaan.onedownload.DownDenoActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".OneSelfViewActivity"></activity>
         <activity android:name="com.liyaan.mvvm.MvvmActivity"></activity>
         <service android:name=".DownloadService"></service>
+        <service android:name="com.liyaan.intentService.MyIntentService"></service>
+        <service android:name=".DownloadAidlService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":aidlService">
+            <intent-filter>
+                <action android:name="com.liyaan.mynew.downaction"/>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </service>
 <!--        <service android:name="com.liyaan.mvvm.net.ui.activity.MvvmMainActivity"-->
 <!--            tools:ignore="Instantiatable"></service>-->
         <provider

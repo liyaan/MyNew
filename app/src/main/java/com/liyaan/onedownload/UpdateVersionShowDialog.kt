@@ -60,7 +60,7 @@ class UpdateVersionShowDialog: DialogFragment() {
         update?.setOnClickListener {
             if (!isFastClick()){
                 val targetFile = File(activity?.cacheDir,"update.apk")
-                AppUpdater.getInstance().getNetManager().download(downloadBean?.url,targetFile,object:INetDownloadCallBack{
+                AppUpdater.getInstance().getNetManager().download(downloadBean!!.url!!,targetFile,object:INetDownloadCallBack{
                     override fun success(apkFile: File?) {
                         dismiss()
                         AppUtils.installApk(activity,apkFile?.path)

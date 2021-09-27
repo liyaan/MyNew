@@ -28,4 +28,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:text="点击"></Button>
+    <Button
+        android:id="@+id/click_intent_service"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:text="intentService"
+        />
 </androidx.appcompat.widget.LinearLayoutCompat>

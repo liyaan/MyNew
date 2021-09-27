@@ -2,6 +2,7 @@ package com.liyaan.download
 
 import android.os.AsyncTask
 import android.os.Environment
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -31,7 +32,7 @@ class DownloadTask(listener: DownloadListener): AsyncTask<String, Int, Int>() {
             val filename = downloadUrl.substring(downloadUrl.lastIndexOf("/"))
             val directory: String =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    .getPath()
+                    .path
             file = File(directory + filename)
             if (file.exists()) {
                 downloadLength = file.length()
@@ -44,43 +45,47 @@ class DownloadTask(listener: DownloadListener): AsyncTask<String, Int, Int>() {
             }
             val client = OkHttpClient()
             val request: Request = Request.Builder() //断点下载，指定从哪个字节开始下载
-                .addHeader("RANGE", "bytes=$downloadLength-")
+                .addHeader("RANGE", "bytes=$downloadLength-$contentLength")
                 .url(downloadUrl)
                 .build()
+            Log.i("aaaaaa","bytes=$downloadLength-")
             val response: Response = client.newCall(request).execute()
             if (response != null) {
-                `is` = response.body()!!.byteStream()
+                `is` = response.body!!.byteStream()
                 saveFile = RandomAccessFile(file, "rw")
                 saveFile.seek(downloadLength) //跳过已下载的字节
-                val b = ByteArray(1024)
+                val b = ByteArray(2048)
                 var total = 0
                 var len: Int = 0
-                while (`is`.read(b).also({ len = it }) != -1) {
-                    total += if (isCanceled) {
-                        return TYPE_CANCELED
-                    } else if (isPaused) {
-                        return TYPE_PAUSED
-                    } else {
-                        len
+
+                while (`is`.read(b).also { len = it } != -1) {
+
+                    total += when {
+                        isCanceled -> {
+                            return TYPE_CANCELED
+                        }
+                        isPaused -> {
+                            return TYPE_PAUSED
+                        }
+                        else -> {
+                            len
+                        }
                     }
                     saveFile.write(b, 0, len)
                     //计算已经下载的百分比
                     val progress = ((total + downloadLength) * 100 / contentLength).toInt()
                     publishProgress(progress)
                 }
-                response.body()!!.close()
+                Log.i("aaaaa","${`is`.read(b).also { len = it }}")
+                response.body!!.close()
                 return TYPE_SUCCESS
             }
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
             try {
-                if (`is` != null) {
-                    `is`.close()
-                }
-                if (saveFile != null) {
-                    saveFile.close()
-                }
+                `is`?.close()
+                saveFile?.close()
                 if (isCanceled && file != null) {
                     file.delete()
                 }
@@ -130,8 +135,9 @@ class DownloadTask(listener: DownloadListener): AsyncTask<String, Int, Int>() {
             .url(downloadUrl)
             .build()
         val response: Response = client.newCall(request).execute()
-        if (response != null && response.isSuccessful()) {
-            val contentLength: Long = response.body()!!.contentLength()
+        if (response != null && response.isSuccessful) {
+            val contentLength: Long = response.body!!.contentLength()
+            Log.i("bbbbbbbbb","$contentLength")
             response.close()
             return contentLength
         }

@@ -20,7 +20,7 @@ class OkHttpManager:INetManager {
         okHttpClient = builder.build()
         mHandler =  Handler(Looper.getMainLooper())
     }
-    override fun get(url: String?, callBack: NetCallBack?) {
+    override fun get(url: String, callBack: NetCallBack?) {
         val request = Request.Builder().url(url).build()
         val call = okHttpClient?.newCall(request)
         call?.enqueue(object:Callback{
@@ -33,7 +33,7 @@ class OkHttpManager:INetManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val rsp = response.body()?.string()
+                val rsp = response.body?.string()
                 mHandler?.post {
                     if (callBack!=null){
                         callBack.success(rsp)
@@ -45,7 +45,7 @@ class OkHttpManager:INetManager {
     }
 
     override fun download(
-        url: String?,
+        url: String,
         targetFile: File?,
         callBack: INetDownloadCallBack?,
         tag: Any?
@@ -67,9 +67,9 @@ class OkHttpManager:INetManager {
                 var inputStream:InputStream? = null
                 var outputStream:FileOutputStream? = null
                 try {
-                    inputStream = response.body()?.byteStream()
+                    inputStream = response.body?.byteStream()
                     outputStream = FileOutputStream(targetFile)
-                    val contentLength = response.body()?.contentLength()
+                    val contentLength = response.body?.contentLength()
                     var len = 0
                     var sum = 0
                     val bytes = ByteArray(1024*12)
@@ -106,13 +106,13 @@ class OkHttpManager:INetManager {
     }
 
     override fun cancel(tag: Any?) {
-        val calls = okHttpClient?.dispatcher()?.queuedCalls()
+        val calls = okHttpClient?.dispatcher?.queuedCalls()
         calls?.forEach {
             if (it.equals(it.request().tag())){
                 it.cancel()
             }
         }
-        val runningCalls = okHttpClient?.dispatcher()?.runningCalls()
+        val runningCalls = okHttpClient?.dispatcher?.runningCalls()
         runningCalls?.forEach {
             if(tag!!.equals(it.request().tag())){
                 it.cancel()
