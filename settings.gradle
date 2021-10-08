@@ -1,3 +1,4 @@
+include ':statusbar'
 include ':client'
 include ':RetrofitLibrary'
 include ':proxylibrary'

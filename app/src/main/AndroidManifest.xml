@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".DownloadAidlActivity"
+        <activity android:name="com.liyaan.recyclerview.SwipeActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,11 +43,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name="com.liyaan.bitmap.SubSamplingActivity"></activity>
         <activity android:name=".DownloadActivity"></activity>
         <activity android:name="com.liyaan.onedownload.DownDenoActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".OneSelfViewActivity"></activity>
         <activity android:name="com.liyaan.mvvm.MvvmActivity"></activity>
+        <activity android:name=".DownloadAidlActivity"></activity>
         <service android:name=".DownloadService"></service>
         <service android:name="com.liyaan.intentService.MyIntentService"></service>
         <service android:name=".DownloadAidlService"

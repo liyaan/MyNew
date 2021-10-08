@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/compiler" />
             <option value="$PROJECT_DIR$/flutter" />
             <option value="$PROJECT_DIR$/proxylibrary" />
+            <option value="$PROJECT_DIR$/statusbar" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
