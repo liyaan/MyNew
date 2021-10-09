@@ -25,6 +25,8 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name="com.liyaan.camera.camera1.CameraActivity"
             android:launchMode="singleTask"></activity>
+        <activity android:name="com.liyaan.camera.camera2.CameraActivity2"
+            android:launchMode="singleTask"></activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.liyaan.statusbar.fileProvider"

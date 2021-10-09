@@ -28,8 +28,8 @@ class MediaRecorderHelper(var mContext: Activity,
                 it.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4) //设置视频的输出格式为MP4
                 it.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT) //设置音频的编码格式
                 it.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT) // 设置视频的编码格式
-                it.setVideoSize(3840, 2160)// 设置视频大小
-                it.setVideoFrameRate(60)  // 设置帧率
+//                it.setVideoSize(3840, 2160)// 设置视频大小
+//                it.setVideoFrameRate(60)  // 设置帧率
                 //it.setMaxDuration(10000) //设置最大录像时间为10s
                 it.setPreviewDisplay(surface) //设置
                 it.setOutputFile(filePath) //设置输出文件
