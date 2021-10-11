@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.liyaan.camera.camera1.CameraActivity
 import com.liyaan.camera.camera2.CameraActivity2
+import com.liyaan.camera.camera2.CameraActivity2Face
 import com.liyaan.camera.util.LogUtils.log
 import com.liyaan.camera.util.PermissionUtils
 import com.liyaan.camera.util.PermissionUtils.PERMISSION_REQUEST_CODE
@@ -47,6 +48,11 @@ class CameraMainActivity:AppCompatActivity() {
             PermissionUtils.checkPermission(this, permissionsList, Runnable {
                 val intent = Intent(this, CameraActivity2::class.java)
                 startActivity(intent)
+            })
+        }
+        btCamera2Face.setOnClickListener {
+            PermissionUtils.checkPermission(this, permissionsList, Runnable {
+                startActivity(Intent(this, CameraActivity2Face::class.java))
             })
         }
     }

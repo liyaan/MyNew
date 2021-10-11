@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/compiler" />
+            <option value="$PROJECT_DIR$/customizeview" />
             <option value="$PROJECT_DIR$/flutter" />
             <option value="$PROJECT_DIR$/proxylibrary" />
             <option value="$PROJECT_DIR$/statusbar" />
